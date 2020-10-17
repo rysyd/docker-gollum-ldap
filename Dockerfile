@@ -13,6 +13,8 @@ RUN gem install RedCloth
 RUN gem install puma
 
 COPY sections.rb navigation.rb /usr/local/bundle/gems/gollum-lib-5.0.6/lib/gollum-lib/macro/
+COPY create-redirect.patch /tmp/
+RUN patch /usr/local/bundle/gems/gollum-5.1.1/lib/gollum/app.rb < /tmp/create-redirect.patch
 
 VOLUME /wiki
 WORKDIR /wiki
