@@ -10,23 +10,23 @@ module Gollum
 
           # search the markup
           lines = page.text_data.each_line
-          # start line
-          str = lines.next
-          next if str != "---\n"
-          meta = ""
-          # end line with limit
-          for i in 1..15 do
-            str = lines.next
-            break if str == "---\n"
-            meta << str
+          hasMeta = false
+          strMeta = ""
+          lines.each_with_index do |line, i|
+            break if i == 0 && line != "---\n" # first line
+            break if i > 10 # limit exit
+            if i > 0 && (line == "---\n" || line == "---") # last line
+              hasMeta = true
+              break
+            end
+            strMeta << line
           end
-          # have meta?
-          next if str != "---\n"
+          next if !hasMeta
           # puts meta
           begin
-            frontmatter = ::YAML.safe_load(meta)
+            frontmatter = ::YAML.safe_load(strMeta)
             # puts frontmatter
-          rescue 
+          rescue
             next
           end
 
@@ -34,12 +34,12 @@ module Gollum
           t = frontmatter['title']
           t = page.title if !t
 
-          if s && s.include?(query) 
+          if s && s.include?(query)
             "<li><a href=\"#{page.escaped_url_path}\">#{t} (#{page.url_path})</a></li>"
           end
 
         end
-        
+
         return "<ul>" + strings.compact.join + "</ul>"
 
       end
