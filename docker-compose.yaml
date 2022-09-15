@@ -1,0 +1,10 @@
+version: '3'
+services:
+  gollum:
+    image: rysyd/gollum-ldap:latest
+    container_name: mygollum
+    ports:
+      - 8081:80
+    volumes:
+      - ./wiki:/wiki
+    restart: always

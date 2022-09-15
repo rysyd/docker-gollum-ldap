@@ -27,11 +27,13 @@ auth_options = {
   :providers => Proc.new do
     provider :ldap,
         :title => 'Identification',
-        :host => 'ldap.com',
+        :host => 'example.ldap.com',
         :port => 389,
         :uid  => 'cn',
         :method   => :plain,
-        :base => 'dc=example'
+        :base => 'dc=example,dc=com',
+        :bind_dn => 'cn=admin,dc=example,dc=com',
+        :password => 'password'
   end,                                                                                                                                  
   :authorized_users => nil,                                                                                                             
   :dummy_auth => false,                                                                                                                 

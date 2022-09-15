@@ -1,26 +1,18 @@
 FROM ruby
 
-RUN apt-get -y update && \
-    apt-get -y install libicu-dev cmake && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN gem install gollum-lib --version 5.0.6
-RUN gem install gollum
-RUN gem install omniauth-ldap omnigollum
-
-RUN gem install RedCloth
-
-RUN gem install puma
-
-COPY sections.rb navigation.rb /usr/local/bundle/gems/gollum-lib-5.0.6/lib/gollum-lib/macro/
-COPY create-redirect.patch /tmp/
-RUN patch /usr/local/bundle/gems/gollum-5.1.1/lib/gollum/app.rb < /tmp/create-redirect.patch
+RUN apt-get -y update \
+    && apt-get -y install libicu-dev cmake \
+    && rm -rf /var/lib/apt/lists/* \
+    && gem install gollum-lib \
+       gollum \
+       omniauth-ldap \
+       omnigollum \
+       RedCloth \
+       puma
 
 VOLUME /wiki
 WORKDIR /wiki
 ENV RACK_ENV=production
-
-#CMD [ "gollum", "--port", "80", "--h1-title", "--emoji", "--allow-uploads", "page", "--no-display-metadata", "--no-follow-renames" ]
 
 CMD [ "gollum", "--port", "80", "--config", "/wiki/config.rb" ]
 
