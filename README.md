@@ -1,19 +1,20 @@
-# gollum wiki with benefits
+## gollum wiki with benefits
 
 wiki engine - https://github.com/gollum/gollum
 Оne needs initialised git repo and config.rb file (example provided)
 
-## features
-
-* ldap auth
-* tags/sections/categories (by macros)
-field 'setions' and 'title' in frontmatter and macros call for the list of pages
+## Steps
+1,  Initializing wiki repository
 ```
----
-display_metadata: true,
-sections: ['one', 'two', three]
----
-
-<<Sections(one)>>
-
+mkdir wiki
+cd wiki
+git init
 ```
+2, edit config.rb and copy to the `wiki` directory.
+3, using docker compose
+```
+docker compose up -d
+```
+
+Gollum listens using http on port 8080.
+
